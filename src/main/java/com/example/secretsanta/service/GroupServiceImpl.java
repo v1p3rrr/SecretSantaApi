@@ -2,6 +2,7 @@ package com.example.secretsanta.service;
 
 import com.example.secretsanta.misc.exception.GroupNotFoundException;
 import com.example.secretsanta.misc.exception.ParticipantNotFoundException;
+import com.example.secretsanta.misc.exception.TossException;
 import com.example.secretsanta.model.db.Group;
 import com.example.secretsanta.model.db.Participant;
 import com.example.secretsanta.model.dto.GroupDTO;
@@ -96,6 +97,9 @@ public class GroupServiceImpl implements GroupService {
     public List<ParticipantDTO> toss(Long id) {
         Group existingGroup = groupRepository.findById(id).orElseThrow(() -> new GroupNotFoundException(id));
         List<Participant> participantListInGroup = existingGroup.getParticipants();
+        if (participantListInGroup.size()<3){
+            throw new TossException();
+        }
         Collections.shuffle(participantListInGroup);
 
         for (int i = 0; i < participantListInGroup.size(); i++){
@@ -108,10 +112,10 @@ public class GroupServiceImpl implements GroupService {
         participantListInGroup.forEach( participant -> System.out.println(participant.getId() + ", " + participant.getRecipient()));
         List<ParticipantDTO> participantDTOList = new ArrayList<>();
         participantListInGroup.forEach( participant -> participantDTOList.add(participant.toDTO()));
-        return participantDTOList;
 //        participantRepository.saveAll(participantListInGroup);
-//        existingGroup.setParticipants(participantListInGroup);
-//        groupRepository.save(existingGroup);
+        existingGroup.setParticipants(participantListInGroup);
+        groupRepository.save(existingGroup);
+        return participantDTOList;
     }
 
     @Override
