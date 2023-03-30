@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface GroupService {
     Long addGroup(Group group);
-    List<Group> getAllGroups();
+    List<GroupDTO> getAllGroups();
     Group getGroupById(Long id);
     void updateGroupById(Long id, GroupDTO groupDTO);
     void deleteGroupById(Long id);

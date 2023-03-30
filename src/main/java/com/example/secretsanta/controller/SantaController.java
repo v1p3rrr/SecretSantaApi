@@ -24,7 +24,7 @@ public class SantaController {
     @GetMapping("")
     @Operation(summary = "Get all groups")
     @ResponseStatus(HttpStatus.OK)
-    public List<Group> getAllGroups(){
+    public List<GroupDTO> getAllGroups(){
         return groupService.getAllGroups();
     }
 
@@ -45,7 +45,7 @@ public class SantaController {
     @PutMapping("/{id}")
     @Operation(description = "update group")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateGroupById(Long id, GroupDTO groupDTO){
+    public void updateGroupById(@Parameter(name = "group id", required = true) @PathVariable Long id, @RequestBody GroupDTO groupDTO){
         groupService.updateGroupById(id, groupDTO);
     }
 

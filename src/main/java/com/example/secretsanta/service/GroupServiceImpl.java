@@ -1,5 +1,6 @@
 package com.example.secretsanta.service;
 
+import com.example.secretsanta.misc.exception.GroupNotFoundException;
 import com.example.secretsanta.model.db.Group;
 import com.example.secretsanta.model.db.Participant;
 import com.example.secretsanta.model.dto.GroupDTO;
@@ -8,6 +9,7 @@ import com.example.secretsanta.repository.ParticipantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,18 +27,23 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public List<Group> getAllGroups() {
-        return groupRepository.findAll();
+    public List<GroupDTO> getAllGroups() {
+        List<Group> groupList = groupRepository.findAll();
+        List<GroupDTO> groupDTOList = new ArrayList<>();
+        groupList.forEach( group -> groupDTOList.add(group.toDTO()));
+        return groupDTOList;
     }
 
     @Override
     public Group getGroupById(Long id) {
-        return groupRepository.findById(id).orElseThrow(); //todo
+        return groupRepository.findById(id).orElseThrow(() -> new GroupNotFoundException(id));
     }
 
     @Override
     public void updateGroupById(Long id, GroupDTO groupDTO) {
-
+        Group existingGroup = groupRepository.findById(id).orElseThrow(() -> new GroupNotFoundException(id));
+        existingGroup.updateFromDTO(groupDTO);
+        groupRepository.save(existingGroup);
     }
 
     @Override
@@ -49,7 +56,11 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Long addParticipantToGroupById(Long id, Participant participant) {
-        return null;
+        Group existingGroup = groupRepository.findById(id).orElseThrow(() -> new GroupNotFoundException(id));
+        participantRepository.save(participant);
+        List<Participant> participantListInGroup = existingGroup.getParticipants();
+        participantListInGroup.add(participant);
+
     }
 
     @Override
