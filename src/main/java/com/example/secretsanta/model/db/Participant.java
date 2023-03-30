@@ -1,5 +1,7 @@
 package com.example.secretsanta.model.db;
 
+import com.example.secretsanta.model.dto.GroupDTO;
+import com.example.secretsanta.model.dto.ParticipantDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -28,8 +30,13 @@ public class Participant {
     private Participant recipient;
 
     @JsonIgnore
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "group_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Group group;
+
+    public ParticipantDTO toDTO(){
+        return new ParticipantDTO(id = getId(), name = getName(), wish = getWish());
+    }
+
 }

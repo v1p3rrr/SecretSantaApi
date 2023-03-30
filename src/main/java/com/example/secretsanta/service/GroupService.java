@@ -3,6 +3,7 @@ package com.example.secretsanta.service;
 import com.example.secretsanta.model.db.Group;
 import com.example.secretsanta.model.db.Participant;
 import com.example.secretsanta.model.dto.GroupDTO;
+import com.example.secretsanta.model.dto.ParticipantDTO;
 
 import java.util.List;
 
@@ -14,6 +15,6 @@ public interface GroupService {
     void deleteGroupById(Long id);
     Long addParticipantToGroupById(Long groupId, Participant participant);
     void deleteParticipantFromGroupById(Long groupId, Long participantId);
-    List<Participant> toss(Long id);
+    List<ParticipantDTO> toss(Long id);
     Participant getRecipientFromParticipantFromGroupById(Long groupId, Long participantId);
 }

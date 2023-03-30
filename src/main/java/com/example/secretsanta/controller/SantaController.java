@@ -3,6 +3,7 @@ package com.example.secretsanta.controller;
 import com.example.secretsanta.model.db.Group;
 import com.example.secretsanta.model.db.Participant;
 import com.example.secretsanta.model.dto.GroupDTO;
+import com.example.secretsanta.model.dto.ParticipantDTO;
 import com.example.secretsanta.service.GroupService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -73,7 +74,7 @@ public class SantaController {
     @PostMapping("/{id}/toss")
     @Operation(description = "get group by its id")
     @ResponseStatus(HttpStatus.CREATED)
-    public List<Participant> toss(@Parameter(name = "group id", required = true) @PathVariable Long id){
+    public List<ParticipantDTO> toss(@Parameter(name = "group id", required = true) @PathVariable Long id){
         return groupService.toss(id);
     }
 

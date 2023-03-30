@@ -35,6 +35,13 @@ public class Group {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<Participant> participants;
 
+    public void setParticipants(List<Participant> participants) {
+        if (participants!=null){
+            participants.forEach( participant -> participant.setGroup(this));
+            this.participants=participants;
+        }
+    }
+
     public void updateFromDTO(GroupDTO groupDTO){
         if (groupDTO.getName()!=null && !groupDTO.getName().isBlank()){
             this.setName(groupDTO.getName());
