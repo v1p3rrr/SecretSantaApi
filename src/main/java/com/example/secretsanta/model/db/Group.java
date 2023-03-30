@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Setter
 @Getter
-@Entity
+@Entity(name = "groupp")
 public class Group {
     @Id
     @GeneratedValue
@@ -30,14 +30,14 @@ public class Group {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnoreProperties("group")
+    @OneToMany(mappedBy = "groupp", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("groupp")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<Participant> participants;
 
     public void setParticipants(List<Participant> participants) {
         if (participants!=null){
-            participants.forEach( participant -> participant.setGroup(this));
+            participants.forEach( participant -> participant.setGroupp(this));
             this.participants=participants;
         }
     }

@@ -31,9 +31,9 @@ public class Participant {
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "group_id")
+    @JoinColumn(name = "groupp_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Group group;
+    private Group groupp;
 
     public ParticipantDTO toDTO() {
         ParticipantDTO dto = new ParticipantDTO();
