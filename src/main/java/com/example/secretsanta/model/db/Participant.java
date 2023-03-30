@@ -35,8 +35,21 @@ public class Participant {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Group group;
 
-    public ParticipantDTO toDTO(){
-        return new ParticipantDTO(id = getId(), name = getName(), wish = getWish());
+    public ParticipantDTO toDTO() {
+        ParticipantDTO dto = new ParticipantDTO();
+        dto.setId(getId());
+        dto.setName(getName());
+        dto.setWish(getWish());
+
+
+        if (getRecipient() != null) {
+            ParticipantDTO recipientDTO = new ParticipantDTO();
+            recipientDTO.setId(getRecipient().getId());
+            recipientDTO.setName(getRecipient().getName());
+            recipientDTO.setWish(getRecipient().getWish());
+            dto.setRecipient(recipientDTO);
+        }
+        return dto;
     }
 
 }
